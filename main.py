@@ -9,7 +9,7 @@ def importFile(request):
 	client2 = storage.Client()
 
 	# get bucket
-	bucket = client2.get_bucket('elena-demo') #without gs://
+	bucket = client2.get_bucket('elena_demo') #without gs://
 	blob = bucket.blob('cb_2017_us_zcta510_500k.zip')
 
 	#See if json exists
@@ -20,12 +20,14 @@ def importFile(request):
 			ftpfile = request.urlopen('http://www2.census.gov/geo/tiger/GENZ2017/shp/cb_2017_us_zcta510_500k.zip')
 		
 			blob.upload_from_file(ftpfile)
-			print('copied animals-1.json to google storage')
-		
+			print('copied cb_2017_us_zcta510_500k.zip to google storage')
+
+		shutil.unpack_archive('ftpfile', 'gs://elena_demo')
+
 		#print error if file doesn't exists
 		except:
 		
-			print('animals-1.json does not exist')
+			print('cb_2017_us_zcta510_500k.zip does not exist')
 
 	#print error if file already exists	in google storage
 	else:
